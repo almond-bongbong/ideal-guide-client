@@ -15,6 +15,9 @@ module.exports = (phase) => {
     GOV_API_KEY: isDev
       ? 'Z7OXb5IIZUKhC9plouAV+yLyi9kQWT3wCFTNDDc3gQFy6RYQSmXFGuRHEKwtAuKf5NiXNkl3zRUeopi+74yh9Q=='
       : 'Z7OXb5IIZUKhC9plouAV+yLyi9kQWT3wCFTNDDc3gQFy6RYQSmXFGuRHEKwtAuKf5NiXNkl3zRUeopi+74yh9Q==',
+    HOST: isDev
+      ? 'http://localhost:3000'
+      : 'http://localhost:3000',
   };
 
   return { env };

@@ -3,7 +3,6 @@ import { NextPageContext } from 'next';
 import { User } from '../../interfaces';
 import Layout from '../../components/Layout';
 import ListDetail from '../../components/ListDetail';
-import { sampleFetchWrapper } from '../../utils/sample-api';
 
 type Props = {
   item?: User;
@@ -38,10 +37,7 @@ InitialPropsDetail.getInitialProps = async function({
   try {
     const { id } = query;
     console.log('id : ', id);
-    const item = await sampleFetchWrapper(
-      `http://localhost:3000/api/users/${Array.isArray(id) ? id[0] : id}`,
-    );
-    return { item };
+    return { id };
   } catch (err) {
     return { errors: err.message };
   }

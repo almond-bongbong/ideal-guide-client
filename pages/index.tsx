@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import xml2js from 'xml2js';
-import { getSubCandidates } from '../api/election';
+import { getCandidates, getDistricts } from '../api/internal/election';
 
 interface Props {
   candidates: any;
@@ -23,16 +22,13 @@ const IndexPage: NextPage<Props> = ({ candidates, totalCount }) => {
 };
 
 IndexPage.getInitialProps = async () => {
-  const { data } = await getSubCandidates();
-  const { response } = await xml2js.parseStringPromise(data, {
-    headless: true,
-    explicitArray: false,
-    mergeAttrs: true,
-  });
+  const { data: candidatesData } = await getCandidates();
+  const { data: districtData } = await getDistricts();
 
   return {
-    candidates: response.body.items,
-    totalCount: parseInt(response.body.totalCount, 10),
+    districts: districtData.body.items,
+    candidates: candidatesData.body.items,
+    totalCount: parseInt(candidatesData.body.totalCount, 10),
   };
 };
 
