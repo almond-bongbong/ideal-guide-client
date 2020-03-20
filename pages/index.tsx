@@ -2,7 +2,6 @@ import * as React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { getCandidates, getDistricts } from '../api/internal/election';
-import Layout from '../components/layout/BasicLayout';
 import { Candidate } from '../interfaces';
 
 interface Props {
@@ -14,7 +13,7 @@ const IndexPage: NextPage<Props> = ({ candidates, totalCount }) => {
   console.log(totalCount);
 
   return (
-    <Layout>
+    <div>
       <h1>Hello Next.js 👋</h1>
       <Link href="/users/[id]" as="/users/101">
         <a title="About Page">about</a>
@@ -29,7 +28,7 @@ const IndexPage: NextPage<Props> = ({ candidates, totalCount }) => {
           <span>{candidate.career1}</span>
         </div>
       ))}
-    </Layout>
+    </div>
   );
 };
 

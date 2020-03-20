@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Header from './Header';
-import Meta from './Meta';
 
 type Props = {
   title?: string;
@@ -8,7 +7,6 @@ type Props = {
 
 const BasicLayout: React.FunctionComponent<Props> = ({ children }) => (
   <div id="container">
-    <Meta />
     <Header />
     <article>{children}</article>
     <footer>
