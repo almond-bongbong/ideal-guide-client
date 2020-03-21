@@ -1,4 +1,4 @@
-export type Candidate = {
+export interface Candidate {
   num: string;
   sgId: string;
   sgTypecode: string;
@@ -21,4 +21,19 @@ export type Candidate = {
   career2: string;
   regdate: string;
   status: string;
+}
+
+export interface District {
+  num: string;
+  sgId: string;
+  sgTypecode: string;
+  sggName: string;
+  sdName: string;
+  wiwName: string;
+  sggJungsu: string;
+  sOrder: string;
+}
+
+export interface DistrictsByCity {
+  [key: string]: District[];
 }

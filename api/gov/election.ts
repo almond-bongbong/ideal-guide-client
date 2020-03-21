@@ -5,7 +5,7 @@ const GOV_API_KEY = process.env.GOV_API_KEY;
 const electionId = '20200415';
 const electionTypeCode = 2;
 
-export const getSubCandidates = () =>
+export const getSubCandidates = (city = '', district = '') =>
   parseXmlResponse(
     axios.get(
       'http://apis.data.go.kr/9760000/PofelcddInfoInqireService/getPoelpcddRegistSttusInfoInqire',
@@ -13,11 +13,11 @@ export const getSubCandidates = () =>
         params: {
           ServiceKey: GOV_API_KEY,
           pageNo: 1,
-          numOfRows: 10,
+          numOfRows: 999,
           sgId: electionId,
           sgTypecode: electionTypeCode,
-          sggName: '',
-          sdName: '',
+          sggName: district,
+          sdName: city,
         },
       },
     ),

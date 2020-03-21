@@ -4,6 +4,7 @@ import NProgress from 'nprogress';
 import BasicLayout from '../components/layout/BasicLayout';
 import Meta from '../components/layout/Meta';
 import { Router } from 'next/router';
+import GlobalStyle from '../resources/GlobalStyle';
 import 'nprogress/nprogress.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -14,6 +15,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Meta />
+      <GlobalStyle />
       <BasicLayout>
         <Component {...pageProps} />
       </BasicLayout>

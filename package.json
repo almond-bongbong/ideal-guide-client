@@ -20,10 +20,11 @@
     "@types/axios": "^0.14.0",
     "@types/node": "^12.12.21",
     "@types/nprogress": "^0.2.0",
-    "@types/react": "^16.9.16",
-    "@types/react-dom": "^16.9.4",
+    "@types/react": "^16.9.25",
+    "@types/react-dom": "^16.9.5",
     "@types/styled-components": "^5.0.1",
     "@types/xml2js": "^0.4.5",
+    "babel-plugin-styled-components": "^1.10.7",
     "typescript": "3.7.3"
   },
   "license": "ISC"
