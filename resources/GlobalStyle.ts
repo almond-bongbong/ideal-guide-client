@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
-const fontFamily = 'Noto Serif KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif;';
+const fontFamily =
+  'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif;';
 
 export default createGlobalStyle`
   *,
@@ -25,6 +26,7 @@ export default createGlobalStyle`
      color: inherit;
      background: none;
      cursor: pointer;
+     letter-spacing: -0.5px;
   }
   button span {
      position: relative;

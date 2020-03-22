@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSubCandidates } from '../../../api/gov/election';
+import { getSubCandidates } from '../../../api/external/gov';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

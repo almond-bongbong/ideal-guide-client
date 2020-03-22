@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getElectionDistricts } from '../../../api/gov/election';
+import { getElectionDistricts } from '../../../api/external/gov';
 
 export default async (_: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -33,7 +33,7 @@ const IndexPage: NextPage<Props> = ({ candidates, totalCount }) => {
 };
 
 IndexPage.getInitialProps = async () => {
-  const { data: candidatesData } = await getCandidates('');
+  const { data: candidatesData } = await getCandidates('', '');
   const { data: districtData } = await getDistricts();
 
   return {

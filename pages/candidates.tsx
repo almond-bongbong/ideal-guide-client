@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { NextPage } from 'next';
+import React, { useEffect, useRef, useState } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getCandidates, getDistricts } from '../api/internal/election';
 import { Candidate, District, DistrictsByCity } from '../interfaces';
 import CandidateList from '../components/candidates/CandidateList';
 import CityList from '../components/candidates/CityList';
 import DistrictList from '../components/candidates/DistrictList';
+import FluidLoader from '../components/loading/FluidLoader';
 
 interface Props {
   districts: District[];
+  candidates: Candidate[] | null;
 }
 
 const parseDistrictsByCity = (districts: District[]): DistrictsByCity =>
@@ -21,18 +23,44 @@ const parseDistrictsByCity = (districts: District[]): DistrictsByCity =>
     return acc;
   }, {});
 
-const Candidates: NextPage<Props> = ({ districts }) => {
+const Candidates: NextPage<Props> = ({
+  districts,
+  candidates: defaultCandidates,
+}) => {
   const router = useRouter();
   const { query } = router;
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const isDidMountRef = useRef<boolean>(false);
+  const city = query.city as string;
+  const district = query.district as string;
+  const [candidates, setCandidates] = useState(defaultCandidates);
+  const [loading, setLoading] = useState<Boolean>(false);
   const districtsByCity = parseDistrictsByCity(districts);
   const cities = Object.keys(districtsByCity);
 
-  const handleCity = (city: string) => {
+  useEffect(() => {
+    (async () => {
+      if (isDidMountRef.current) {
+        if (district) {
+          setLoading(true);
+          const { data: candidatesData } = await getCandidates(city, district);
+          setCandidates(candidatesData.body.items.item);
+          setLoading(false);
+        } else {
+          setCandidates([]);
+        }
+      }
+    })();
+  }, [district]);
+
+  useEffect(() => {
+    isDidMountRef.current = true;
+  }, []);
+
+  const pushQuery = (nextQuery: { city?: string; district?: string }) => {
     router.push(
       {
         pathname: router.pathname,
-        query: { city },
+        query: nextQuery,
       },
       undefined,
       {
@@ -41,10 +69,15 @@ const Candidates: NextPage<Props> = ({ districts }) => {
     );
   };
 
-  const handleDistrict = async (district: District) => {
-    const { data } = await getCandidates(district.sdName, district.sggName);
-    setCandidates(data.body.items.item);
+  const handleCity = (selectedCity: string) => {
+    pushQuery({ city: selectedCity });
   };
+
+  const handleDistrict = async (selectedDistrict: District) => {
+    pushQuery({ city, district: selectedDistrict.sggName });
+  };
+
+  console.log(districts);
 
   return (
     <div>
@@ -55,17 +88,29 @@ const Candidates: NextPage<Props> = ({ districts }) => {
           onClickDistrict={handleDistrict}
         />
       )}
-      <CandidateList candidates={candidates || []} />
+      <CandidateList candidates={candidates || []} districtsId="1234" />
+
+      {loading && <FluidLoader />}
     </div>
   );
 };
 
-Candidates.getInitialProps = async () => {
-  const { data } = await getDistricts();
-
-  return {
-    districts: data.body.items.item,
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { data: districtsData } = await getDistricts();
+  const nextProps = {
+    districts: districtsData.body.items.item,
+    candidates: null,
   };
+
+  if (query.city && query.district) {
+    const { data: candidatesData } = await getCandidates(
+      query.city as string,
+      query.district as string,
+    );
+    nextProps.candidates = candidatesData.body.items.item;
+  }
+
+  return { props: nextProps };
 };
 
 export default Candidates;
