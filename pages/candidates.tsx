@@ -7,6 +7,8 @@ import CandidateList from '../components/candidates/CandidateList';
 import CityList from '../components/candidates/CityList';
 import DistrictList from '../components/candidates/DistrictList';
 import FluidLoader from '../components/loading/FluidLoader';
+import districtsForPhoto from '../constants/districtsForPhoto';
+import { Falsy } from '../interfaces/types';
 
 interface Props {
   districts: District[];
@@ -32,7 +34,7 @@ const Candidates: NextPage<Props> = ({
   const isDidMountRef = useRef<boolean>(false);
   const city = query.city as string;
   const district = query.district as string;
-  const [candidates, setCandidates] = useState(defaultCandidates);
+  const [candidates = [], setCandidates] = useState(defaultCandidates);
   const [loading, setLoading] = useState<Boolean>(false);
   const districtsByCity = parseDistrictsByCity(districts);
   const cities = Object.keys(districtsByCity);
@@ -77,18 +79,32 @@ const Candidates: NextPage<Props> = ({
     pushQuery({ city, district: selectedDistrict.sggName });
   };
 
-  console.log(districts);
+  const districtIdForPhoto: string | Falsy =
+    candidates &&
+    candidates.length > 0 &&
+    districtsForPhoto
+      .find(d => d.city === candidates[0].sdName)
+      ?.districts.find(d => d.text === candidates[0].sggName)?.value;
 
   return (
     <div>
-      <CityList cities={cities} onClickCity={handleCity} />
+      <CityList
+        currentCity={city}
+        cities={cities}
+        onClickCity={handleCity}
+      />
+
       {query.city && (
         <DistrictList
           districts={districtsByCity[query.city as string]}
           onClickDistrict={handleDistrict}
         />
       )}
-      <CandidateList candidates={candidates || []} districtsId="1234" />
+
+      <CandidateList
+        candidates={candidates || []}
+        districtIdForPhoto={districtIdForPhoto}
+      />
 
       {loading && <FluidLoader />}
     </div>

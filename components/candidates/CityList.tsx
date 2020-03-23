@@ -1,19 +1,46 @@
 import React from 'react';
+import styled from 'styled-components';
 
 interface Props {
+  currentCity?: string;
   cities: string[];
   onClickCity: (city: string) => void;
 }
 
-function CityList({ cities, onClickCity }: Props) {
+const Container = styled.div`
+  overflow: hidden;
+  margin: -4px;
+`;
+
+const ButtonWrap = styled.div`
+  display: inline-block;
+  padding: 4px;
+`;
+
+const CityButton = styled.button<{ active: boolean }>`
+  display: block;
+  padding: 8px 12px;
+  background-color: ${({ active, theme }) => (active ? theme.color2 : '#fafafa')};
+  border-radius: 3px;
+  color: #333;
+  font-weight: ${({ active }) => (active ? 700 : 400)};
+`;
+
+function CityList({ currentCity, cities, onClickCity }: Props) {
   return (
-    <div>
-      {cities.map(c => (
-        <button key={c} type="button" onClick={() => onClickCity(c)}>
-          {c}
-        </button>
+    <Container>
+      {cities.map((c: string) => (
+        <ButtonWrap key={c}>
+          <CityButton
+            type="button"
+            active={c === currentCity}
+            onClick={() => onClickCity(c)}
+          >
+            {c}
+          </CityButton>
+        </ButtonWrap>
       ))}
-    </div>
+    </Container>
   );
 }
 

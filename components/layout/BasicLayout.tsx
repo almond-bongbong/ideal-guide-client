@@ -19,7 +19,7 @@ const Content = styled.article`
   width: 1200px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 30px 20px;
 `;
 
 function BasicLayout({ children }: Props) {

@@ -1,8 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 
-const fontFamily =
-  'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif;';
-
 export default createGlobalStyle`
   *,
   *:before,
@@ -35,7 +32,7 @@ export default createGlobalStyle`
       color: #000;
       font-size: 14px;
       line-height: 1.5;
-      font-family: ${fontFamily};
+      font-family: ${({ theme }): string => theme.basicFont};
       letter-spacing: -0.5px;
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
@@ -46,7 +43,7 @@ export default createGlobalStyle`
       font-size: inherit;
       text-decoration: none;
       line-height: 1.5;
-      font-family: ${fontFamily};
+      font-family: ${({ theme }): string => theme.basicFont};
   }
   button {
       outline: 0;
@@ -71,7 +68,7 @@ export default createGlobalStyle`
   input[type="radio"] + label{
     border-radius: 0;
     color: #000;
-    font: 14px/1.5 ${fontFamily};
+    font: 14px/1.5 ${({ theme }): string => theme.basicFont};
     vertical-align: middle;
   }
   input {

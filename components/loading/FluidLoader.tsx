@@ -8,7 +8,6 @@ const Container = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.4);
 `;
 
 const Content = styled.div`

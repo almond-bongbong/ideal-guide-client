@@ -1,28 +1,23 @@
 import React from 'react';
 import { Candidate } from '../../interfaces';
-import styled from 'styled-components';
+import { Falsy } from '../../interfaces/types';
+import CandidateInfo from './CandidateInfo';
 
 interface Props {
   candidates: Candidate[];
-  districtsId: string;
+  districtIdForPhoto?: string | Falsy;
 }
 
-const Thumbnail = styled.img`
-  display: block;
-  width: 80px;
-`;
-
-function CandidateList({ candidates, districtsId }: Props) {
+function CandidateList({ candidates, districtIdForPhoto }: Props) {
   return (
     <div>
       {candidates.map(c => (
-        <div key={c.huboid}>
-          <Thumbnail
-            src={`http://info.nec.go.kr/photo_20200415/Gsg${districtsId}/Hb${c.huboid}/gicho/${c.huboid}.JPG`}
-            alt="후보자 사진"
-          />
-          <span>{c.name}</span>
-        </div>
+        <CandidateInfo
+          key={c.huboid}
+          id={c.huboid}
+          name={c.name}
+          photoUrl={`http://info.nec.go.kr/photo_20200415/Gsg${districtIdForPhoto}/Hb${c.huboid}/gicho/thumbnail.${c.huboid}.JPG`}
+        />
       ))}
     </div>
   );
