@@ -37,3 +37,8 @@ export interface District {
 export interface DistrictsByCity {
   [key: string]: District[];
 }
+
+export interface CityWithDistricts {
+  city: string;
+  districts: District[];
+}

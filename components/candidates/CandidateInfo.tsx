@@ -5,14 +5,17 @@ interface Props {
   id: string;
   photoUrl: string;
   name: string;
+  className?: string;
 }
+
+const Container = styled.div``;
 
 const Thumbnail = styled.img`
   display: block;
-  width: 80px;
+  width: 100%;
 `;
 
-function CandidateInfo({ id, name, photoUrl }: Props) {
+function CandidateInfo({ id, name, photoUrl, className }: Props) {
   const [image, setImage] = useState<string>('');
 
   useEffect(() => {
@@ -43,11 +46,22 @@ function CandidateInfo({ id, name, photoUrl }: Props) {
     };
   }, []);
 
+  const openDetailPopup = () => {
+    const url = `http://info.nec.go.kr/electioninfo/precandidate_detail_info.xhtml?electionId=0020200415&huboId=${id}`;
+    window.open(
+      url,
+      'PREHBM',
+      'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes, width=1020, height=760, left=0, top=0',
+    );
+  };
+
   return (
-    <div key={id}>
+    <Container className={className}>
       {image && <Thumbnail src={image} alt="후보자 사진" />}
-      <span>{name}</span>
-    </div>
+      <button type="button" onClick={openDetailPopup}>
+        {name}
+      </button>
+    </Container>
   );
 }
 

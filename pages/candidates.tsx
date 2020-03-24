@@ -2,42 +2,67 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getCandidates, getDistricts } from '../api/internal/election';
-import { Candidate, District, DistrictsByCity } from '../interfaces';
+import {
+  Candidate,
+  CityWithDistricts,
+  District,
+  DistrictsByCity,
+} from '../interfaces';
 import CandidateList from '../components/candidates/CandidateList';
 import CityList from '../components/candidates/CityList';
 import DistrictList from '../components/candidates/DistrictList';
 import FluidLoader from '../components/loading/FluidLoader';
 import districtsForPhoto from '../constants/districtsForPhoto';
 import { Falsy } from '../interfaces/types';
+import styled from 'styled-components';
 
 interface Props {
-  districts: District[];
+  cityWithDistricts: CityWithDistricts[];
   candidates: Candidate[] | null;
+  city: string;
+  district: string;
 }
 
-const parseDistrictsByCity = (districts: District[]): DistrictsByCity =>
-  districts.reduce((acc: DistrictsByCity, cur: District) => {
-    if (!acc[cur.sdName]) {
-      acc[cur.sdName] = [];
-    }
+const CandidateListWrap = styled.div`
+  margin-top: 30px;
+`;
 
-    acc[cur.sdName].push(cur);
-    return acc;
-  }, {});
+const parseDistrictsByCity = (districts: District[]): CityWithDistricts[] => {
+  const districtsByCity = districts.reduce(
+    (acc: DistrictsByCity, cur: District) => {
+      if (!acc[cur.sdName]) {
+        acc[cur.sdName] = [];
+      }
+
+      acc[cur.sdName].push(cur);
+      return acc;
+    },
+    {},
+  );
+
+  return Object.entries(districtsByCity).map(([city, districts]) => ({
+    city,
+    districts,
+  }));
+};
 
 const Candidates: NextPage<Props> = ({
-  districts,
+  cityWithDistricts,
   candidates: defaultCandidates,
+  city: defaultCity,
+  district: defaultDistrict,
 }) => {
   const router = useRouter();
   const { query } = router;
   const isDidMountRef = useRef<boolean>(false);
-  const city = query.city as string;
-  const district = query.district as string;
   const [candidates = [], setCandidates] = useState(defaultCandidates);
   const [loading, setLoading] = useState<Boolean>(false);
-  const districtsByCity = parseDistrictsByCity(districts);
-  const cities = Object.keys(districtsByCity);
+  const cities = cityWithDistricts.map(d => d.city);
+  const city = (query.city as string) || defaultCity;
+  const districts =
+    cityWithDistricts.find(d => d.city === city)?.districts || [];
+  const district =
+    (query.district as string) || districts[0].sggName || defaultDistrict;
 
   useEffect(() => {
     (async () => {
@@ -88,23 +113,22 @@ const Candidates: NextPage<Props> = ({
 
   return (
     <div>
-      <CityList
-        currentCity={city}
-        cities={cities}
-        onClickCity={handleCity}
-      />
+      <CityList currentCity={city} cities={cities} onClickCity={handleCity} />
 
-      {query.city && (
+      {city && (
         <DistrictList
-          districts={districtsByCity[query.city as string]}
+          activeDistrictName={district}
+          districts={districts}
           onClickDistrict={handleDistrict}
         />
       )}
 
-      <CandidateList
-        candidates={candidates || []}
-        districtIdForPhoto={districtIdForPhoto}
-      />
+      <CandidateListWrap>
+        <CandidateList
+          candidates={candidates?.filter(c => c.status === '등록') || []}
+          districtIdForPhoto={districtIdForPhoto}
+        />
+      </CandidateListWrap>
 
       {loading && <FluidLoader />}
     </div>
@@ -113,19 +137,18 @@ const Candidates: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { data: districtsData } = await getDistricts();
+  const cityWithDistricts = parseDistrictsByCity(districtsData.body.items.item);
+  const city = (query.city as string) || cityWithDistricts[0].city;
+  const districts = cityWithDistricts.find(c => c.city === city)!.districts;
+  const district = (query.district as string) || districts[0].sggName;
+  const { data: candidatesData } = await getCandidates(city, district);
+
   const nextProps = {
-    districts: districtsData.body.items.item,
-    candidates: null,
+    candidates: candidatesData.body.items.item,
+    cityWithDistricts,
+    city,
+    district,
   };
-
-  if (query.city && query.district) {
-    const { data: candidatesData } = await getCandidates(
-      query.city as string,
-      query.district as string,
-    );
-    nextProps.candidates = candidatesData.body.items.item;
-  }
-
   return { props: nextProps };
 };
 

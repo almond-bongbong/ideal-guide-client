@@ -33,7 +33,7 @@ const NavLink = styled.a<{ active: boolean }>`
   color: #fff;
 `;
 
-const menu = [{ link: '/candidates', text: '21대 국회의원 선거 후보자' }];
+const menu = [{ link: '/candidates', text: '21대 국회의원 선거 예비후보자' }];
 
 function Header() {
   const router = useRouter();

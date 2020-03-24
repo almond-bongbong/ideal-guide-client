@@ -87,7 +87,7 @@ export default [
   {
     city: '대구광역시',
     districts: [
-      { value: '2701', text: '중구남구' },
+      { value: '2704', text: '중구남구' },
       { value: '2702', text: '동구갑' },
       { value: '2702', text: '동구을' },
       { value: '2703', text: '서구' },
@@ -255,9 +255,9 @@ export default [
   {
     city: '충청남도',
     districts: [
-      { value: '4401', text: '천안시갑' },
-      { value: '4401', text: '천안시을' },
-      { value: '4401', text: '천안시병' },
+      { value: '4418', text: '천안시갑' },
+      { value: '4417', text: '천안시을' },
+      { value: '4418', text: '천안시병' },
       { value: '4402', text: '공주시부여군청양군' },
       { value: '4403', text: '보령시서천군' },
       { value: '4404', text: '아산시갑' },
@@ -319,11 +319,11 @@ export default [
   {
     city: '경상남도',
     districts: [
-      { value: '4801', text: '창원시의창구' },
-      { value: '4801', text: '창원시성산구' },
-      { value: '4802', text: '창원시마산합포구' },
-      { value: '4802', text: '창원시마산회원구' },
-      { value: '4804', text: '창원시진해구' },
+      { value: '4821', text: '창원시의창구' },
+      { value: '4822', text: '창원시성산구' },
+      { value: '4823', text: '창원시마산합포구' },
+      { value: '4824', text: '창원시마산회원구' },
+      { value: '4825', text: '창원시진해구' },
       { value: '4803', text: '진주시갑' },
       { value: '4803', text: '진주시을' },
       { value: '4805', text: '통영시고성군' },

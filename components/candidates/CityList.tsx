@@ -20,9 +20,13 @@ const ButtonWrap = styled.div`
 const CityButton = styled.button<{ active: boolean }>`
   display: block;
   padding: 8px 12px;
-  background-color: ${({ active, theme }) => (active ? theme.color2 : '#fafafa')};
+  background-color: ${({ theme, active }) => (active ? theme.color3 : '#fafafa')};
   border-radius: 3px;
-  color: #333;
+  box-shadow: ${({ active }) =>
+    active
+      ? '1px 1px 1px 1px rgba(100, 100, 100, 0.1)'
+      : '1px 1px 1px 1px rgba(100, 100, 100, 0.1)'};
+  color: ${({ active }) => (active ? '#fff' : '#555')};
   font-weight: ${({ active }) => (active ? 700 : 400)};
 `;
 
