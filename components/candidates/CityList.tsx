@@ -14,18 +14,17 @@ const Container = styled.div`
 
 const ButtonWrap = styled.div`
   display: inline-block;
+  width: 10%;
   padding: 4px;
 `;
 
 const CityButton = styled.button<{ active: boolean }>`
   display: block;
-  padding: 8px 12px;
-  background-color: ${({ theme, active }) => (active ? theme.color3 : '#fafafa')};
-  border-radius: 3px;
-  box-shadow: ${({ active }) =>
-    active
-      ? '1px 1px 1px 1px rgba(100, 100, 100, 0.1)'
-      : '1px 1px 1px 1px rgba(100, 100, 100, 0.1)'};
+  width: 100%;
+  padding: 4px 0;
+  background-color: ${({ theme, active }) => (active ? theme.color1 : '#fff')};
+  border: 1px solid #ddd;
+  border-radius: 5px;
   color: ${({ active }) => (active ? '#fff' : '#555')};
   font-weight: ${({ active }) => (active ? 700 : 400)};
 `;

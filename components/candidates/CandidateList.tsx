@@ -12,25 +12,27 @@ interface Props {
 
 const Container = styled.div`
   overflow: hidden;
-  margin: -15px;
+  margin: -20px;
 `;
 
-const CandidateInfoWrap = styled(CandidateInfo)`
+const CandidateInfoWrap = styled.div`
   float: left;
-  padding: 15px;
-  width: 20%;
+  padding: 20px;
+  width: 50%;
 `;
 
 function CandidateList({ candidates, districtIdForPhoto, className }: Props) {
   return (
     <Container className={className}>
       {candidates.map(c => (
-        <CandidateInfoWrap
-          key={c.huboid}
-          id={c.huboid}
-          name={c.name}
-          photoUrl={`http://info.nec.go.kr/photo_20200415/Gsg${districtIdForPhoto}/Hb${c.huboid}/gicho/thumbnail.${c.huboid}.JPG`}
-        />
+        <CandidateInfoWrap key={c.huboid}>
+          <CandidateInfo
+            id={c.huboid}
+            name={c.name}
+            photoUrl={`http://info.nec.go.kr/photo_20200415/Gsg${districtIdForPhoto}/Hb${c.huboid}/gicho/thumbnail.${c.huboid}.JPG`}
+            party={c.jdName}
+          />
+        </CandidateInfoWrap>
       ))}
     </Container>
   );

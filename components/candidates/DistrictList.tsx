@@ -6,44 +6,66 @@ interface Props {
   activeDistrictName?: string;
   districts: District[];
   onClickDistrict: (district: District) => void;
+  className?: string;
 }
 
 const Container = styled.div`
-  margin-top: 20px;
+  overflow: hidden;
+`;
+
+const Content = styled.div`
+  margin: 0 -10px;
 `;
 
 const ButtonWrap = styled.div`
   display: inline-block;
+  width: 10%;
 `;
 
 const DistrictButton = styled.button<{ active: boolean }>`
   display: block;
+  width: 100%;
+  position: relative;
   padding: 5px 10px;
-  color: ${({ active }) => (active ? '#333' : '#666')};
-  font-size: 13px;
+  color: ${({ theme, active }) => (active ? theme.color1 : '#666')};
   font-weight: ${({ active }) => (active ? 700 : 400)};
-  text-shadow: ${({ active }) =>
-    active ? '1px 1px 3px rgba(100, 100, 100, 0.3)' : ''};
+  font-size: 14px;
+  text-decoration: ${({ active }) => (active ? 'underline' : '')};
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: -2px;
+    top: 16px;
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    background-color: #ddd;
+  }
 `;
 
 function DistrictList({
   activeDistrictName,
   districts,
   onClickDistrict,
+  className,
 }: Props) {
   return (
-    <Container>
-      {districts.map(d => (
-        <ButtonWrap key={d.num}>
-          <DistrictButton
-            type="button"
-            active={activeDistrictName === d.sggName}
-            onClick={() => onClickDistrict(d)}
-          >
-            {d.sggName}
-          </DistrictButton>
-        </ButtonWrap>
-      ))}
+    <Container className={className}>
+      <Content>
+        {districts.map(d => (
+          <ButtonWrap key={d.num}>
+            <DistrictButton
+              type="button"
+              active={activeDistrictName === d.sggName}
+              onClick={() => onClickDistrict(d)}
+            >
+              {d.sggName}
+            </DistrictButton>
+          </ButtonWrap>
+        ))}
+      </Content>
     </Container>
   );
 }

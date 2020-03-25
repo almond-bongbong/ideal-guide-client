@@ -1,66 +1,119 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { fadeIn } from '../../style/animations';
+import colorByParty from '../../constants/colorByParty';
 
 interface Props {
   id: string;
   photoUrl: string;
   name: string;
+  party: string;
+  birth: string;
+  age: string;
+  job: string;
+  career1: string;
+  career2: string;
   className?: string;
 }
 
-const Container = styled.div``;
-
-const Thumbnail = styled.img`
-  display: block;
-  width: 100%;
+const Container = styled.div`
+  overflow: hidden;
+  position: relative;
+  height: 180px;
+  padding: 20px 10px 20px 140px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(100, 100, 100, 0.2);
+  cursor: pointer;
 `;
 
-function CandidateInfo({ id, name, photoUrl, className }: Props) {
+const PhotoWrap = styled.div`
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 130px;
+  background-color: #fafafa;
+`;
+
+const Photo = styled.img`
+  display: block;
+  height: 134px;
+  margin: -2px;
+  animation: ${fadeIn} 0.3s;
+`;
+
+const Title = styled.div`
+  margin-bottom: 10px;
+`;
+
+const Name = styled.em`
+  color: #000;
+  font-weight: 700;
+  font-size: 18px;
+  vertical-align: middle;
+`;
+
+const Party = styled.span<{ color: string }>`
+  margin-left: 15px;
+  color: ${({ color }) => color || '#333'};
+  font-weight: 700;
+  font-size: 16px;
+  vertical-align: middle;
+`;
+
+const Profile = styled.p`
+  color: #444;
+  font-size: 14px;
+`;
+
+const loadImage = (url: string): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = url;
+    image.onload = e => {
+      resolve((e.currentTarget as HTMLImageElement).src);
+    };
+    image.onerror = e => {
+      reject(e);
+    };
+  });
+
+const changeExtension = (url: string, extension: string): string =>
+  `${url
+    .split('.')
+    .slice(0, -1)
+    .join('.')}.${extension}`;
+
+function CandidateInfo({ id, name, photoUrl, party, className }: Props) {
   const [image, setImage] = useState<string>('');
 
   useEffect(() => {
-    const image = new Image();
-    image.src = photoUrl;
-    image.onload = () => {
-      setImage(photoUrl);
-    };
-    image.onerror = e => {
-      if (typeof e !== 'string') {
-        const img: EventTarget | null = e.currentTarget;
-        const extension = (img as HTMLImageElement).src
-          .split('.')
-          .slice(-1)
-          .join('');
-
-        if (extension === 'JPEG') {
-          setImage('/images/candidate-default-photo.png');
-          return;
-        }
-      }
-      const newImage = `${photoUrl
-        .split('.')
-        .slice(0, -1)
-        .join('.')}.JPEG`;
-
-      setImage(newImage);
-    };
+    loadImage(photoUrl)
+      .then(setImage)
+      .catch(() => loadImage(changeExtension(photoUrl, 'JPEG')))
+      .then(result => result && setImage(result))
+      .catch(() => loadImage(changeExtension(photoUrl, 'GIF')))
+      .then(result => result && setImage(result));
   }, []);
 
   const openDetailPopup = () => {
-    const url = `http://info.nec.go.kr/electioninfo/precandidate_detail_info.xhtml?electionId=0020200415&huboId=${id}`;
     window.open(
-      url,
+      `http://info.nec.go.kr/electioninfo/precandidate_detail_info.xhtml?electionId=0020200415&huboId=${id}`,
       'PREHBM',
       'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes, width=1020, height=760, left=0, top=0',
     );
   };
 
   return (
-    <Container className={className}>
-      {image && <Thumbnail src={image} alt="후보자 사진" />}
-      <button type="button" onClick={openDetailPopup}>
-        {name}
-      </button>
+    <Container className={className} onClick={openDetailPopup}>
+      <PhotoWrap>{image && <Photo src={image} alt="후보자 사진" />}</PhotoWrap>
+      <Title>
+        <Name>{name}</Name>
+        <Party color={colorByParty.get(party)}>{party}</Party>
+      </Title>
+      <Profile>
+        {/*{birth}*/}
+      </Profile>
     </Container>
   );
 }

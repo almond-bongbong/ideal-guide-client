@@ -23,8 +23,26 @@ interface Props {
   district: string;
 }
 
+const MenuArea = styled.div`
+  display: block;
+  padding: 40px 34px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(100, 100, 100, 0.4);
+`;
+
 const CandidateListWrap = styled.div`
-  margin-top: 30px;
+  margin-top: 50px;
+`;
+
+const MenuTitle = styled.em`
+  display: block;
+  margin-bottom: 15px;
+  font-size: 17px;
+`;
+
+const DistrictWrap = styled.div`
+  margin-top: 35px;
 `;
 
 const parseDistrictsByCity = (districts: District[]): CityWithDistricts[] => {
@@ -113,15 +131,21 @@ const Candidates: NextPage<Props> = ({
 
   return (
     <div>
-      <CityList currentCity={city} cities={cities} onClickCity={handleCity} />
+      <MenuArea>
+        <MenuTitle>시도</MenuTitle>
+        <CityList currentCity={city} cities={cities} onClickCity={handleCity} />
 
-      {city && (
-        <DistrictList
-          activeDistrictName={district}
-          districts={districts}
-          onClickDistrict={handleDistrict}
-        />
-      )}
+        {city && (
+          <DistrictWrap>
+            <MenuTitle>선거구</MenuTitle>
+            <DistrictList
+              activeDistrictName={district}
+              districts={districts}
+              onClickDistrict={handleDistrict}
+            />
+          </DistrictWrap>
+        )}
+      </MenuArea>
 
       <CandidateListWrap>
         <CandidateList

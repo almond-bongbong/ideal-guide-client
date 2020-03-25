@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 const Container = styled.header`
-  background-color: ${({ theme }): string => theme.color1};
+  position: relative;
+  z-index: 100;
   color: #fff;
   box-shadow: 0 1px 10px 2px rgba(100, 100, 100, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 `;
 
 const Content = styled.div`
@@ -14,26 +16,37 @@ const Content = styled.div`
   width: 1200px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 14px 20px;
+  padding: 16px 20px 18px;
 `;
 
 const Logo = styled.h1`
-  font-size: 20px;
+  font-size: 26px;
+
+  > * {
+    vertical-align: middle;
+  }
+
+  span {
+    margin-left: 20px;
+    font-size: 16px;
+  }
 `;
 
 const Navigation = styled.nav`
   position: absolute;
   top: 50%;
-  left: 150px;
+  right: 0;
   transform: translateY(-50%);
 `;
 
 const NavLink = styled.a<{ active: boolean }>`
   // color: ${({ active, theme }) => (active ? theme.color3 : '')};
   color: #fff;
+  font-weight: 700;
+  font-size: 18px;
 `;
 
-const menu = [{ link: '/candidates', text: '21대 국회의원 선거 예비후보자' }];
+const menu = [{ link: '/candidates', text: '국회의원선거' }];
 
 function Header() {
   const router = useRouter();
@@ -45,6 +58,7 @@ function Header() {
           <Link href="/">
             <a>개돼지노노</a>
           </Link>
+          <span>제21대 국회의원선거</span>
         </Logo>
         <Navigation>
           {menu.map(m => (
