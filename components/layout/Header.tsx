@@ -35,7 +35,7 @@ const Logo = styled.h1`
 const Navigation = styled.nav`
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 20px;
   transform: translateY(-50%);
 `;
 

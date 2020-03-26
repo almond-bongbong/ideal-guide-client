@@ -12,6 +12,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const response = await getSubCandidates(city as string, district as string);
     res.status(200).json(response);
   } catch (err) {
-    res.status(500);
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };

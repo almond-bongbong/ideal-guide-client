@@ -31,6 +31,11 @@ function CandidateList({ candidates, districtIdForPhoto, className }: Props) {
             name={c.name}
             photoUrl={`http://info.nec.go.kr/photo_20200415/Gsg${districtIdForPhoto}/Hb${c.huboid}/gicho/thumbnail.${c.huboid}.JPG`}
             party={c.jdName}
+            age={c.age}
+            birth={c.birthday}
+            career1={c.career1}
+            career2={c.career2}
+            job={c.job}
           />
         </CandidateInfoWrap>
       ))}

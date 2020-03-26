@@ -8,8 +8,22 @@ const xmlParsingOptions = {
 };
 
 export const parseXmlResponse = async (fetch: Promise<AxiosResponse>) => {
-  const { data } = await fetch;
-  const { response } = await xml2js.parseStringPromise(data, xmlParsingOptions);
+  let data;
 
-  return response;
+  try {
+    const response = await fetch;
+    data = response.data;
+  } catch (e) {
+    throw Error('데이터 호출에 실패했습니다.');
+  }
+
+  try {
+    const { response } = await xml2js.parseStringPromise(
+      data,
+      xmlParsingOptions,
+    );
+    return response;
+  } catch (e) {
+    throw Error('데이터 파싱에 실패했습니다.');
+  }
 };
