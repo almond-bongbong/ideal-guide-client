@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.footer`
-  border-top: 1px solid #eee;
+  background-color: #f6f6f6;
 `;
 
 const Content = styled.div`
@@ -10,13 +10,14 @@ const Content = styled.div`
   width: 1200px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 30px 20px;
+  color: #777;
 `;
 
 function Footer() {
   return (
     <Container>
-      <Content>I'm here to stay (Footer)</Content>
+      <Content>Copyright 2020&copy; Corp. All Rights Reserved.</Content>
     </Container>
   );
 }

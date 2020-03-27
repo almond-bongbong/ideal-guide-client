@@ -8,7 +8,9 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/moment": "^2.13.0",
     "axios": "^0.19.2",
+    "moment": "^2.24.0",
     "next": "latest",
     "nprogress": "^0.2.0",
     "react": "^16.12.0",

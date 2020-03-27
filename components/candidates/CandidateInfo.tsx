@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { fadeIn } from '../../style/animations';
 import colorByParty from '../../constants/colorByParty';
+import moment from 'moment';
 
 interface Props {
   id: string;
+  number: string;
   photoUrl: string;
   name: string;
   party: string;
@@ -19,27 +21,45 @@ interface Props {
 const Container = styled.div`
   overflow: hidden;
   position: relative;
-  height: 180px;
-  padding: 20px 10px 20px 140px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(100, 100, 100, 0.2);
   cursor: pointer;
 `;
 
-const PhotoWrap = styled.div`
+const Number = styled.em`
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  padding: 2px 6px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  color: #555;
+  font-size: 12px;
+`;
+
+const ProfileWrap = styled.div`
+  overflow: hidden;
+  position: relative;
+`;
+
+const Photo = styled.div`
   overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
-  height: 130px;
+  height: 100%;
   background-color: #fafafa;
+
+  img {
+    display: block;
+    height: calc(100% + 4px);
+    margin: -2px;
+    animation: ${fadeIn} 0.3s;
+  }
 `;
 
-const Photo = styled.img`
-  display: block;
-  height: 134px;
-  margin: -2px;
-  animation: ${fadeIn} 0.3s;
+const Profile = styled.div`
+  padding: 20px 20px 20px 170px;
 `;
 
 const Title = styled.div`
@@ -61,9 +81,14 @@ const Party = styled.span<{ color: string }>`
   vertical-align: middle;
 `;
 
-const Profile = styled.p`
+const Info = styled.p`
   color: #444;
   font-size: 14px;
+`;
+
+const Pledge = styled.div`
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
 `;
 
 const loadImage = (url: string): Promise<string> =>
@@ -84,7 +109,19 @@ const changeExtension = (url: string, extension: string): string =>
     .slice(0, -1)
     .join('.')}.${extension}`;
 
-function CandidateInfo({ id, name, photoUrl, party, className }: Props) {
+function CandidateInfo({
+  id,
+  number,
+  name,
+  photoUrl,
+  party,
+  birth,
+  age,
+  job,
+  career1,
+  career2,
+  className,
+}: Props) {
   const [image, setImage] = useState<string>('');
 
   useEffect(() => {
@@ -98,7 +135,7 @@ function CandidateInfo({ id, name, photoUrl, party, className }: Props) {
 
   const openDetailPopup = () => {
     window.open(
-      `http://info.nec.go.kr/electioninfo/precandidate_detail_info.xhtml?electionId=0020200415&huboId=${id}`,
+      `http://info.nec.go.kr/electioninfo/candidate_detail_info.xhtml?electionId=0020200415&huboId=${id}`,
       'PREHBM',
       'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes, width=1020, height=760, left=0, top=0',
     );
@@ -106,14 +143,26 @@ function CandidateInfo({ id, name, photoUrl, party, className }: Props) {
 
   return (
     <Container className={className} onClick={openDetailPopup}>
-      <PhotoWrap>{image && <Photo src={image} alt="후보자 사진" />}</PhotoWrap>
-      <Title>
-        <Name>{name}</Name>
-        <Party color={colorByParty.get(party)}>{party}</Party>
-      </Title>
-      <Profile>
-        {/*{birth}*/}
-      </Profile>
+      <Number>기호 {number}번</Number>
+      <ProfileWrap>
+        <Photo>{image && <img src={image} alt="후보자 사진" />}</Photo>
+        <Profile>
+          <Title>
+            <Name>{name}</Name>
+            <Party color={colorByParty.get(party)}>{party}</Party>
+          </Title>
+          <Info>
+            {moment(birth).format('YYYY. MM. DD')} ({age}세)
+            <br />
+            {job}
+            <br />
+            {career1}
+            <br />
+            {career2}
+          </Info>
+        </Profile>
+      </ProfileWrap>
+      <Pledge>공약입니다.</Pledge>
     </Container>
   );
 }

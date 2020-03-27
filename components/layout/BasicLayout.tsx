@@ -34,7 +34,7 @@ const Content = styled.article`
   width: 1180px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 60px 20px 100px;
 `;
 
 function BasicLayout({ children }: Props) {

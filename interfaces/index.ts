@@ -6,6 +6,8 @@ export interface Candidate {
   sggName: string;
   sdName: string;
   wiwName: string;
+  giho: string;
+  gihoSangse: string;
   jdName: string;
   name: string;
   hanjaName: string;
@@ -19,7 +21,6 @@ export interface Candidate {
   edu: string;
   career1: string;
   career2: string;
-  regdate: string;
   status: string;
 }
 

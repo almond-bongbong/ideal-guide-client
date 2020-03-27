@@ -28,6 +28,7 @@ function CandidateList({ candidates, districtIdForPhoto, className }: Props) {
         <CandidateInfoWrap key={c.huboid}>
           <CandidateInfo
             id={c.huboid}
+            number={c.giho}
             name={c.name}
             photoUrl={`http://info.nec.go.kr/photo_20200415/Gsg${districtIdForPhoto}/Hb${c.huboid}/gicho/thumbnail.${c.huboid}.JPG`}
             party={c.jdName}

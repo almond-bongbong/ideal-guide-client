@@ -173,14 +173,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
     const { data: candidatesData } = await getCandidates(city, district);
     const nextProps = {
-      candidates: candidatesData,
+      candidates: candidatesData.body.items.item,
       cityWithDistricts,
       city,
       district,
     };
     return { props: nextProps };
   } catch (e) {
-    console.log(e);
     return { props: {} };
   }
 };
