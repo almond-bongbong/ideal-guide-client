@@ -29,7 +29,7 @@ const CityButton = styled.button<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? 700 : 400)};
 `;
 
-function CityList({ currentCity, cities, onClickCity }: Props) {
+function CitySelection({ currentCity, cities, onClickCity }: Props) {
   return (
     <Container>
       {cities.map((c: string) => (
@@ -47,4 +47,4 @@ function CityList({ currentCity, cities, onClickCity }: Props) {
   );
 }
 
-export default CityList;
+export default CitySelection;

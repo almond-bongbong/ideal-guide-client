@@ -8,9 +8,9 @@ import {
   District,
   DistrictsByCity,
 } from '../interfaces';
-import CandidateList from '../components/candidates/CandidateList';
-import CityList from '../components/candidates/CityList';
-import DistrictList from '../components/candidates/DistrictList';
+import CandidateList from '../components/candidate/CandidateList';
+import CitySelection from '../components/candidate/CitySelection';
+import DistrictSelection from '../components/candidate/DistrictSelection';
 import FluidLoader from '../components/loading/FluidLoader';
 import districtsForPhoto from '../constants/districtsForPhoto';
 import { Falsy } from '../interfaces/types';
@@ -133,7 +133,7 @@ const Candidates: NextPage<Props> = ({
     <div>
       <MenuArea>
         <MenuTitle>시도</MenuTitle>
-        <CityList
+        <CitySelection
           currentCity={city}
           cities={cities || []}
           onClickCity={handleCity}
@@ -142,7 +142,7 @@ const Candidates: NextPage<Props> = ({
         {city && (
           <DistrictWrap>
             <MenuTitle>선거구</MenuTitle>
-            <DistrictList
+            <DistrictSelection
               activeDistrictName={district}
               districts={districts}
               onClickDistrict={handleDistrict}

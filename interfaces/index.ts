@@ -43,3 +43,10 @@ export interface CityWithDistricts {
   city: string;
   districts: District[];
 }
+
+export interface Party {
+  num: string;
+  sgId: string;
+  jdName: string;
+  pOrder: string;
+}

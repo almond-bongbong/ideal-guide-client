@@ -40,13 +40,34 @@ const Navigation = styled.nav`
 `;
 
 const NavLink = styled.a<{ active: boolean }>`
-  // color: ${({ active, theme }) => (active ? theme.color3 : '')};
+  position: relative;
   color: #fff;
   font-weight: 700;
   font-size: 18px;
+
+  & + & {
+    margin-left: 30px;
+  }
+
+  ${({ active }) =>
+    active &&
+    `
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: -25px;
+      height: 3px;
+      background-color: #fff;
+    }
+  `}
 `;
 
-const menu = [{ link: '/candidates', text: '국회의원선거' }];
+const menu = [
+  { link: '/candidates', text: '국회의원선거' },
+  { link: '/party/policy', text: '정당정책' },
+];
 
 function Header() {
   const router = useRouter();
@@ -61,7 +82,7 @@ function Header() {
           <span>제21대 국회의원선거</span>
         </Logo>
         <Navigation>
-          {menu.map(m => (
+          {menu.map((m) => (
             <Link key={m.text} href={m.link} passHref>
               <NavLink active={router.pathname === m.link}>{m.text}</NavLink>
             </Link>

@@ -45,7 +45,7 @@ const DistrictButton = styled.button<{ active: boolean }>`
   }
 `;
 
-function DistrictList({
+function DistrictSelection({
   activeDistrictName,
   districts,
   onClickDistrict,
@@ -70,4 +70,4 @@ function DistrictList({
   );
 }
 
-export default DistrictList;
+export default DistrictSelection;

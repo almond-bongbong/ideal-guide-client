@@ -38,3 +38,34 @@ export const getElectionDistricts = () =>
       },
     ),
   );
+
+export const getPartyPolicy = (partyName: string) =>
+  parseXmlResponse(
+    axios.get(
+      'http://apis.data.go.kr/9760000/PartyPlcInfoInqireService/getPartyPlcInfoInqire',
+      {
+        params: {
+          ServiceKey: GOV_API_KEY,
+          pageNo: 1,
+          numOfRows: 999,
+          sgId: electionId,
+          partyName,
+        },
+      },
+    ),
+  );
+
+export const getParties = () =>
+  parseXmlResponse(
+    axios.get(
+      'http://apis.data.go.kr/9760000/CommonCodeService/getCommonPartyCodeList',
+      {
+        params: {
+          ServiceKey: GOV_API_KEY,
+          pageNo: 1,
+          numOfRows: 999,
+          sgId: electionId,
+        },
+      },
+    ),
+  );
