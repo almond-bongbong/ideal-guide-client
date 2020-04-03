@@ -40,6 +40,7 @@ const Number = styled.em`
 const ProfileWrap = styled.div`
   overflow: hidden;
   position: relative;
+  height: 161px;
 `;
 
 const Photo = styled.div`
@@ -81,9 +82,15 @@ const Party = styled.span<{ color: string }>`
   vertical-align: middle;
 `;
 
-const Info = styled.p`
+const Info = styled.ul`
   color: #444;
   font-size: 14px;
+  
+  & > li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const Pledge = styled.div`
@@ -152,13 +159,10 @@ function CandidateInfo({
             <Party color={colorByParty.get(party)}>{party}</Party>
           </Title>
           <Info>
-            {moment(birth).format('YYYY. MM. DD')} ({age}세)
-            <br />
-            {job}
-            <br />
-            {career1}
-            <br />
-            {career2}
+            <li>{moment(birth).format('YYYY. MM. DD')} ({age}세)</li>
+            <li>{job}</li>
+            <li>{career1}</li>
+            <li>{career2}</li>
           </Info>
         </Profile>
       </ProfileWrap>
