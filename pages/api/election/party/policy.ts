@@ -6,7 +6,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { partyName } = req.query;
 
     if (!partyName) {
-      res.status(400);
+      res.status(400).end();
     }
 
     const response = await getPartyPolicy(partyName as string);

@@ -28,6 +28,7 @@ const Logo = styled.h1`
 
   span {
     margin-left: 20px;
+    font-weight: 400;
     font-size: 16px;
   }
 `;
@@ -42,7 +43,6 @@ const Navigation = styled.nav`
 const NavLink = styled.a<{ active: boolean }>`
   position: relative;
   color: #fff;
-  font-weight: 700;
   font-size: 18px;
 
   & + & {
@@ -84,7 +84,7 @@ function Header() {
         <Navigation>
           {menu.map((m) => (
             <Link key={m.text} href={m.link} passHref>
-              <NavLink active={router.pathname === m.link}>{m.text}</NavLink>
+              <NavLink active={router.pathname.startsWith(m.link)}>{m.text}</NavLink>
             </Link>
           ))}
         </Navigation>

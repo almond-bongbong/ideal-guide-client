@@ -1,34 +1,39 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { getDistricts } from '../api/internal/election';
-import { District } from '../interfaces';
+import styled from 'styled-components';
+import ElectionPartyInfoTable from '../components/election/ElectionPartyInfoTable';
 
-interface Props {
-  districts: District[];
-}
+const Container = styled.div`
+  display: block;
+  padding: 40px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  color: #555;
+`;
 
-const IndexPage: NextPage<Props> = ({ districts }) => {
+const Title = styled.h2`
+  font-weight: 400;
+  font-size: 20px;
+
+  em {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 26px;
+  }
+`;
+
+const IndexPage: NextPage = () => {
   return (
-    <div>
-      <h1>Hello Next.js 👋</h1>
-      <Link href="/users/[id]" as="/users/101">
-        <a title="About Page">about</a>
-      </Link>
+    <Container>
+      <Title>
+        <em>2020년 4월 15일 수요일</em>
+        대한민국 제21대 국회의원 선거
+      </Title>
 
-      {districts.map(d => (
-        <div key={d.num}>{d.sggName}</div>
-      ))}
-    </div>
+      <ElectionPartyInfoTable />
+    </Container>
   );
-};
-
-IndexPage.getInitialProps = async () => {
-  const { data: districtData } = await getDistricts();
-
-  return {
-    districts: districtData.body.items.item,
-  };
 };
 
 export default IndexPage;

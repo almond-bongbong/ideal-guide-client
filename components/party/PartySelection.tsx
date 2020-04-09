@@ -5,6 +5,7 @@ import colorByParty from '../../constants/colorByParty';
 
 interface Props {
   parties: Party[];
+  onClick: (party: Party) => void;
 }
 
 const Container = styled.ul`
@@ -36,14 +37,18 @@ const PartyButton = styled.button<{ color: string }>`
   }
 `;
 
-function PartySelection({ parties }: Props) {
+function PartySelection({ parties, onClick }: Props) {
   return (
     <Container>
       {parties
         .filter((p) => p.jdName !== '무소속')
         .map((p) => (
           <PartyWrap key={p.num}>
-            <PartyButton color={colorByParty.get(p.jdName)}>
+            <PartyButton
+              type="button"
+              color={colorByParty.get(p.jdName)}
+              onClick={() => onClick(p)}
+            >
               {p.jdName}
             </PartyButton>
           </PartyWrap>
