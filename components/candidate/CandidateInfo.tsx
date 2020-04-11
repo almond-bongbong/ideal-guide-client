@@ -166,7 +166,7 @@ function CandidateInfo({
           </Info>
         </Profile>
       </ProfileWrap>
-      <Pledge>공약입니다.</Pledge>
+      <Pledge>공약</Pledge>
     </Container>
   );
 }
