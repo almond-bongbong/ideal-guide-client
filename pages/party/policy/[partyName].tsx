@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { getParties, getPartyPolicy } from '../../../api/internal/election';
 import styled from 'styled-components';
 import colorByParty from '../../../constants/colorByParty';
 import PartyPolicySelection from '../../../components/party/PartyPolicySelection';
 import { useRouter } from 'next/router';
 import { Party } from '../../../interfaces';
+import { getParties, getPartyPolicy } from '../../../api/external/gov';
 
 interface Props {
   policy: {
@@ -108,8 +108,8 @@ function PartyName({ policy }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await getParties();
-  const paths = data.body.items.item.map((p: Party) => ({
+  const response = await getParties();
+  const paths = response.body.items.item.map((p: Party) => ({
     params: { partyName: p.jdName },
   }));
   return { paths, fallback: false };
@@ -118,9 +118,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     if (params?.partyName) {
-      const { data } = await getPartyPolicy(params.partyName as string);
-      if (data.body.items.item) {
-        return { props: { policy: data.body.items.item } };
+      const response = await getPartyPolicy(params.partyName as string);
+      if (response.body.items.item) {
+        return { props: { policy: response.body.items.item } };
       }
     }
     return { props: {} };
