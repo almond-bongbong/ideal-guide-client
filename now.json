@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "GOV_KEY": "@gov_key"
+    }
+  }
+}

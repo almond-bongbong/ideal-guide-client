@@ -1,3 +1,5 @@
 import axios from 'axios';
 
-export const internalAxios = axios.create({ baseURL: process.env.HOST });
+export const internalAxios = axios.create({
+  baseURL: process.env.HOST,
+});
