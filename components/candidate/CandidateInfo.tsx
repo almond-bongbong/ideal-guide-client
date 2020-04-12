@@ -93,11 +93,6 @@ const Info = styled.ul`
   }
 `;
 
-const Pledge = styled.div`
-  padding: 10px 20px;
-  border-top: 1px solid #eee;
-`;
-
 const loadImage = (url: string): Promise<string> =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -166,7 +161,6 @@ function CandidateInfo({
           </Info>
         </Profile>
       </ProfileWrap>
-      <Pledge>공약</Pledge>
     </Container>
   );
 }
