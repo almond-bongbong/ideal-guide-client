@@ -14,7 +14,7 @@ module.exports = (phase) => {
 
   const env = {
     GOV_API_KEY: process.env.GOV_KEY,
-    HOST: isDev ? 'http://localhost:3000' : 'http://localhost',
+    HOST: isDev ? 'http://localhost:3000' : `${location.protocol}//${location.hostname}`,
   };
 
   return { env };
