@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const internalAxios = axios.create({
-  baseURL: process.env.HOST,
+  baseURL: `${window.location.protocol}//${window.location.hostname}`,
 });
