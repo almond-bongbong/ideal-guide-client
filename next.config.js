@@ -14,7 +14,7 @@ module.exports = (phase) => {
 
   const env = {
     GOV_API_KEY: process.env.GOV_KEY,
-    HOST: isDev ? 'http://localhost:3000' : 'http://ideal-guide-client.now.sh',
+    HOST: isDev ? 'http://localhost:3000' : 'https://ideal-guide-client.now.sh',
   };
 
   return { env };
