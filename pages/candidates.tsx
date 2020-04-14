@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { getCandidates, getDistricts } from '../api/internal/election';
 import {
   Candidate,
   CityWithDistricts,
@@ -15,6 +14,8 @@ import FluidLoader from '../components/loading/FluidLoader';
 import districtsForPhoto from '../constants/districtsForPhoto';
 import { Falsy } from '../interfaces/types';
 import styled from 'styled-components';
+import { toast } from 'react-interaction';
+import { getCandidates, getDistricts } from '../api/internal/election';
 
 interface Props {
   cityWithDistricts?: CityWithDistricts[];
@@ -75,10 +76,10 @@ const Candidates: NextPage<Props> = ({
   const isDidMountRef = useRef<boolean>(false);
   const [candidates = [], setCandidates] = useState(defaultCandidates);
   const [loading, setLoading] = useState<Boolean>(false);
-  const cities = cityWithDistricts?.map(d => d.city);
+  const cities = cityWithDistricts?.map((d) => d.city);
   const city = (query.city as string) || defaultCity;
   const districts =
-    cityWithDistricts?.find(d => d.city === city)?.districts || [];
+    cityWithDistricts?.find((d) => d.city === city)?.districts || [];
   const district =
     (query.district as string) || districts[0]?.sggName || defaultDistrict;
 
@@ -87,9 +88,16 @@ const Candidates: NextPage<Props> = ({
       if (isDidMountRef.current) {
         if (city && district) {
           setLoading(true);
-          const { data: candidatesData } = await getCandidates(city, district);
-          setCandidates(candidatesData.body.items.item);
-          setLoading(false);
+          try {
+            const { data } = await getCandidates(city, district);
+            if (data) {
+              setCandidates(data.body.items.item);
+            }
+          } catch (e) {
+            toast('데이터를 불러오지 못했습니다.', { time: 3000 });
+          } finally {
+            setLoading(false);
+          }
         } else {
           setCandidates([]);
         }
@@ -126,8 +134,8 @@ const Candidates: NextPage<Props> = ({
     candidates &&
     candidates.length > 0 &&
     districtsForPhoto
-      .find(d => d.city === candidates[0].sdName)
-      ?.districts.find(d => d.text === candidates[0].sggName)?.value;
+      .find((d) => d.city === candidates[0].sdName)
+      ?.districts.find((d) => d.text === candidates[0].sggName)?.value;
 
   return (
     <div>
@@ -153,7 +161,7 @@ const Candidates: NextPage<Props> = ({
 
       <CandidateListWrap>
         <CandidateList
-          candidates={candidates?.filter(c => c.status === '등록') || []}
+          candidates={candidates?.filter((c) => c.status === '등록') || []}
           districtIdForPhoto={districtIdForPhoto}
         />
       </CandidateListWrap>
@@ -164,16 +172,18 @@ const Candidates: NextPage<Props> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { data: districtsData } = await getDistricts();
-  const cityWithDistricts = parseDistrictsByCity(districtsData.body.items.item);
+  const districtsData = await getDistricts();
+  const cityWithDistricts = parseDistrictsByCity(
+    districtsData.data.body.items.item,
+  );
   const city = (query.city as string) || cityWithDistricts[0].city;
-  const districts = cityWithDistricts.find(c => c.city === city)!.districts;
+  const districts = cityWithDistricts.find((c) => c.city === city)!.districts;
   const district = (query.district as string) || districts[0].sggName;
 
   try {
-    const { data: candidatesData } = await getCandidates(city, district);
+    const candidatesData = await getCandidates(city, district);
     const nextProps = {
-      candidates: candidatesData.body.items.item,
+      candidates: candidatesData.data.body.items.item,
       cityWithDistricts,
       city,
       district,
