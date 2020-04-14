@@ -77,7 +77,7 @@ function Header() {
       <Content>
         <Logo>
           <Link href="/">
-            <a>개돼지노노</a>
+            <a>vote</a>
           </Link>
           <span>제21대 국회의원선거</span>
         </Logo>
